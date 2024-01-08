@@ -29,9 +29,11 @@ pipeline{
 	}
 	stage("Sonarqube Analysis") {
             steps {
-		withCredentials([string(credentialsId: 'sonarqube-cred', variable: 'token')]) {
-		sh "mvn sonar:sonar"
-		}
+		script {
+                    withSonarQubeEnv(credentialsId: 'sonarqube-cred') {
+                        sh "mvn sonar:sonar"
+                    }
+                }
             }
     	}
     }

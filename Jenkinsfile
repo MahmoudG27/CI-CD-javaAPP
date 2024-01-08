@@ -36,13 +36,14 @@ pipeline{
                 }
             }
     	}
-	stage('Build Docker Image') {
+	stage('Build and Push Docker Image') {
             steps {
                 echo 'Build'
                 withCredentials([usernamePassword(credentialsId: 'docker-cred', usernameVariable: 'USERNAME_MG', passwordVariable: 'PASSWORD_MG')]) {
                     sh '''
 			docker login -u ${USERNAME_MG} -p ${PASSWORD_MG}
 			docker build -t ${DOCKER_IMAGE_NAME}:v${BUILD_NUMBER} .
+   			docker push ${DOCKER_IMAGE_NAME}:v${BUILD_NUMBER}
                     '''
                 }
             }

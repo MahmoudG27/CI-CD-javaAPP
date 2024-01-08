@@ -13,6 +13,14 @@ class CalculatorUITest {
 
     @BeforeEach
     void setUp() {
+        // If any specific UI-related initialization is here, handle it accordingly for headless operation
+        // For instance, use a conditional check or configure it for headless mode if possible
+        try {
+            // Example: You can conditionally set headless mode for the UI
+            System.setProperty("java.awt.headless", "true");
+        } catch (Exception ignored) {
+            // Handle exceptions related to headless mode configuration if needed
+        }
         calculatorUI = new CalculatorUI();
     }
 
@@ -22,3 +30,4 @@ class CalculatorUITest {
         assertEquals(expectedResult, calculatorUI.calculate(firstNumber, secondNumber, operator));
     }
 }
+

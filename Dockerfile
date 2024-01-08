@@ -1,10 +1,10 @@
-FROM maven:3.5.2-jdk-8-alpine AS MAVEN
-COPY pom.xml /tmp/
-COPY src /tmp/src/
-WORKDIR /tmp/
-RUN mvn package
+FROM maven:3.9.0-eclipse-temurin-17 as build
+WORKDIR /app
+COPY . .
+RUN mvn clean install
 
-FROM tomcat:9.0-jre8-alpine
-WORKDIR $CATALINA_HOME/webapps/
-COPY --from=MAVEN /tmp/target/*.war .
-RUN rm -rf ROOT && mv *.war ROOT.war
+FROM eclipse-temurin:17.0.6_10-jdk
+WORKDIR /app
+COPY --from=build /app/target/demoapp.jar /app/
+EXPOSE 8080
+CMD ["java", "-jar","demoapp.jar"]

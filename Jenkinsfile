@@ -48,5 +48,12 @@ pipeline{
                 }
             }
         }
+	stage('Trivy Scan Image') {
+            steps {
+                echo 'Scan Image'
+                    sh ('docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image ${DOCKER_IMAGE_NAME}:v${BUILD_NUMBER} --no-progress --scanners vuln  --exit-code 0 --severity HIGH,CRITICAL --format table')
+                }
+            }
+        }
     }
 }
